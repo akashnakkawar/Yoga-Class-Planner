@@ -1,0 +1,16 @@
+const express = require('express')
+const body_parser = require('body-parser')
+const cors = require('cors')
+//importing database
+const database = require('./mongoDB/db')
+const router = require('./routes/student-routes')
+const app = express()
+app.use(body_parser.urlencoded({extended: true}))
+app.use(cors())
+app.use(body_parser.json())
+database.on('error', console.error.bind(console, 'mongodb connection error'))
+app.get('/',(req,res)=>{
+    res.send('server is runnig')
+})
+app.use('/api',router)
+app.listen(8080,()=>console.log('server is running on 8080 port'))
